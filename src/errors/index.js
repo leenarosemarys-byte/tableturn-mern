@@ -39,4 +39,28 @@ class NoSuchTable extends DomainError {
   }
 }
 
-module.exports = { DomainError, ValidationError, NoSuchBranch, NoSuchTable };
+class PartyTooBig extends DomainError {
+  constructor(covers, maxCovers) {
+    super(400, '/errors/party-too-big', 'Party too big', `No table here seats ${covers}; the largest seats ${maxCovers}`);
+    this.maxCovers = maxCovers;
+  }
+
+  extras() {
+    return { maxCovers: this.maxCovers };
+  }
+}
+
+class NoSuchParty extends DomainError {
+  constructor(partyId) {
+    super(404, '/errors/no-such-party', 'No such party', `Party ${partyId} is not on the list of this branch`);
+  }
+}
+
+module.exports = {
+  DomainError,
+  ValidationError,
+  NoSuchBranch,
+  NoSuchTable,
+  PartyTooBig,
+  NoSuchParty,
+};

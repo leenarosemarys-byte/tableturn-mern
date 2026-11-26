@@ -35,4 +35,10 @@ function table(branchId, no) {
   return Table.findOne({ branchId, no }).lean();
 }
 
-module.exports = { branchExists, addBranch, tablesOf, table };
+/** The most covers any table of the branch seats. */
+async function largestSeats(branchId) {
+  const largest = await Table.findOne({ branchId }).sort({ seats: -1 }).lean();
+  return largest ? largest.seats : 0;
+}
+
+module.exports = { branchExists, addBranch, tablesOf, table, largestSeats };
